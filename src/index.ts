@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { rootHandler, helloHandler } from './handlers';
+import { apiRouter } from './routes';
 
 const app = express();
 const port = process.env.PORT || '8000';
@@ -8,7 +9,7 @@ app.use(express.json());
 
 
 
-app.use('/', apiRoutes);
+app.use('/', apiRouter);
 // app.get('/', rootHandler);
 // app.get('/examples', );
 // app.get('/hello/:name', helloHandler);

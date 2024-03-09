@@ -1,13 +1,21 @@
 import express, { Request, Response } from 'express';
 
+export const exampleRouter = express.Router();
+
 const withBodyHandler = (req: Request, res: Response) => {
-    const { body } = req;
-    console.log('🚀  body:', body);
-    return res.json({ message: 'ok', body });
-  };
-  
-  const withQueryHandler = (req: Request, res: Response) => {
-    const { query } = req;
-    console.log('🚀  query:', query);
-    return res.json({ message: 'ok', query });
-  };
+  const { body } = req;
+  return res.json({ message: 'ok', body });
+};
+
+const withQueryHandler = (req: Request, res: Response) => {
+  const { query } = req;
+  return res.json({ message: 'ok', query });
+};
+
+exampleRouter.route('/with-body').get(withBodyHandler);
+exampleRouter.route('/with-query').get(withQueryHandler);
+
+export const exampleRoutes = {
+  withBodyHandler,
+  withQueryHandler,
+};

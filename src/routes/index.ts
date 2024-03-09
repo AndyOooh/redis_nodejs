@@ -1,13 +1,12 @@
 import express from 'express';
+import { exampleRouter } from './examples';
 
-import exampleRoutes from '.';
-// import postsRoutes from './posts.routes.js';
-// import usersRoutes from './users/users.routes.js';
+export const apiRouter = express.Router();
 
-const router = express.Router();
+const rootHandler = (_req: express.Request, res: express.Response) => {
+  return res.send('API is working 🤓');
+};
 
-router.use('/', authRoutes);
-router.use('/examples', exampleRoutes);
-router.use('/users', usersRoutes);
-
-export default router;
+apiRouter.use('/', rootHandler);
+apiRouter.use('/example', exampleRouter);
+// apiRouter.use('/users', usersRoutes);
