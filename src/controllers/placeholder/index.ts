@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Request, Response } from 'express';
 import { redisClient } from '../../config/redis';
+import { getOrSetCache } from '../../utils';
 
 type Post = {
   userId: number;
@@ -28,14 +29,17 @@ export const getPost = async (req: Request, res: Response) => {
   try {
     const postId = req.params.id;
     const key = `post:${postId}`;
-    const dataCached = await redisClient.get(key);
-    console.log('🚀  key:', key)
-    if (dataCached) return res.json(JSON.parse(dataCached));
-    const { data }: { data: Post[] } = await axios.get(
-      `https://jsonplaceholder.typicode.com/posts/${postId}`
-    );
+    console.log('🚀  key:', key);
 
-    await redisClient.set(key, JSON.stringify(data));
+    const data = await getOrSetCache(key, () =>
+      axios.get(`https://jsonplaceholder.typicode.com/posts/${postId}`)
+    );
+    // const dataCached = await redisClient.get(key);
+    // if (dataCached) return res.json(JSON.parse(dataCached));
+    // const { data }: { data: Post[] } = await axios.get(
+    //   `https://jsonplaceholder.typicode.com/posts/${postId}`
+    // );
+    // await redisClient.set(key, JSON.stringify(data));
     return res.json(data);
   } catch (error) {
     throw error;
