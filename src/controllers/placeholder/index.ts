@@ -12,13 +12,13 @@ type Post = {
 export const getPosts = async (_req: Request, res: Response) => {
   try {
     const key = 'posts';
-    const dataRedis = await redisClient.get(key);
-    if (dataRedis) return res.json(JSON.parse(dataRedis));
+    const dataCached = await redisClient.get(key);
+    if (dataCached) return res.json(JSON.parse(dataCached));
     const { data }: { data: Post[] } = await axios.get(
       'https://jsonplaceholder.typicode.com/posts'
     );
     await redisClient.set(key, JSON.stringify(data));
-    return res.json({ message: 'Hello from /posts 😍', data });
+    return res.json(data);
   } catch (error) {
     throw error;
   }
@@ -27,11 +27,16 @@ export const getPosts = async (_req: Request, res: Response) => {
 export const getPost = async (req: Request, res: Response) => {
   try {
     const postId = req.params.id;
+    const key = `post:${postId}`;
+    const dataCached = await redisClient.get(key);
+    console.log('🚀  key:', key)
+    if (dataCached) return res.json(JSON.parse(dataCached));
     const { data }: { data: Post[] } = await axios.get(
       `https://jsonplaceholder.typicode.com/posts/${postId}`
     );
 
-    return res.json({ message: 'Hello from /posts 😍', data });
+    await redisClient.set(key, JSON.stringify(data));
+    return res.json(data);
   } catch (error) {
     throw error;
   }
