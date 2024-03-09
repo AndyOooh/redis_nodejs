@@ -1,8 +1,12 @@
 {
   "name": "redis_nodejs",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.ts",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon src/index.ts",
+    "build": "tsc"
+  },
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.25",
