@@ -11,12 +11,13 @@ type Post = {
 
 export const getPosts = async (_req: Request, res: Response) => {
   try {
-    await redisClient.set('test99', 'This was set in TS');
-    const a = 22;
+    const key = 'posts';
+    const dataRedis = await redisClient.get(key);
+    if (dataRedis) return res.json(JSON.parse(dataRedis));
     const { data }: { data: Post[] } = await axios.get(
       'https://jsonplaceholder.typicode.com/posts'
     );
-
+    await redisClient.set(key, JSON.stringify(data));
     return res.json({ message: 'Hello from /posts 😍', data });
   } catch (error) {
     throw error;
