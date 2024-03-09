@@ -14,13 +14,32 @@ export const getPosts = async (_req: Request, res: Response) => {
       'https://jsonplaceholder.typicode.com/posts'
     );
 
-    return res.json({ message: 'Hello from /with-body 😍', data });
+    return res.json({ message: 'Hello from /posts 😍', data });
+  } catch (error) {
+    throw error;
+  }
+};
+export const getPost = async (req: Request, res: Response) => {
+  try {
+    const postId = req.params.id;
+    const { data }: { data: Post[] } = await axios.get(
+      `https://jsonplaceholder.typicode.com/posts/${postId}`
+    );
+
+    return res.json({ message: 'Hello from /posts 😍', data });
   } catch (error) {
     throw error;
   }
 };
 
-// export const withQueryHandler = (req: Request, res: Response) => {
-//   const { query } = req;
-//   return res.json({ message: 'Hello from /with-query 😁', query });
-// };
+export const getPhotos = async (_req: Request, res: Response) => {
+  try {
+    const { data }: { data: Post[] } = await axios.get(
+      'https://jsonplaceholder.typicode.com/photos'
+    );
+
+    return res.json({ message: 'Hello from /photos 😍', data });
+  } catch (error) {
+    throw error;
+  }
+};
