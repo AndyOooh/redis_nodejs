@@ -8,7 +8,7 @@ export const getOrSetCache = async (key: string, cb: () => Promise<any>) => {
       return JSON.parse(dataCached);
     }
     console.log(`🚫 Cach MISS for ${key}`);
-    const freshData = await cb();
+    const { data: freshData } = await cb();
     await redisClient.set(key, JSON.stringify(freshData));
     return freshData;
   } catch (error) {

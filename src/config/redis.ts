@@ -18,3 +18,4 @@ redisClient.on('error', err => {
 redisClient.on('connect', () => {
   console.log(`Redis Client Connected on ${redisOptions.host}:${redisOptions.port}`);
 });
+
