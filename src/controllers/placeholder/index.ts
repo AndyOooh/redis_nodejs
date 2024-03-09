@@ -9,9 +9,6 @@ type Post = {
   body: string;
 };
 
-// const redisClient = createClient();
-// await redisClient.connect();
-
 export const getPosts = async (_req: Request, res: Response) => {
   try {
     await redisClient.set('test99', 'This was set in TS');

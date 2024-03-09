@@ -8,7 +8,7 @@ const redisOptions = {
 };
 
 export const redisClient = createClient(redisOptions);
-// redisClient.connect();
+redisClient.connect();
 
 // Handle Redis client connection events and errors
 redisClient.on('error', err => {
@@ -16,5 +16,5 @@ redisClient.on('error', err => {
 });
 
 redisClient.on('connect', () => {
-  console.log('Redis Client Connected');
+  console.log(`Redis Client Connected on ${redisOptions.host}:${redisOptions.port}`);
 });
